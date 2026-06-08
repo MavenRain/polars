@@ -250,7 +250,6 @@ def read_parquet(
             storage_options=storage_options,
             pyarrow_options=pyarrow_options,
             memory_map=memory_map,
-            rechunk=False,
         )
 
         if rechunk:

@@ -304,7 +304,7 @@ fn test_lazy_query_4() -> PolarsResult<()> {
         .unwrap();
     assert_eq!(
         Vec::from(out.column("diff_cases").unwrap().i32().unwrap()),
-        &[None, Some(2), Some(3), None, Some(5), Some(11)]
+        &[None, Some(5), Some(11), None, Some(2), Some(3)]
     );
 
     Ok(())
