@@ -975,6 +975,7 @@ def test_scan_rechunk_arg() -> None:
     with warnings.catch_warnings():
         warnings.simplefilter("ignore", UserWarning)
 
+        # Parameter is ignored / unsupported on the streaming engine.
         assert (
             pl.scan_parquet(f, rechunk=True).collect(engine="streaming").n_chunks() != 1
         )
