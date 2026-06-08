@@ -1216,13 +1216,16 @@ pub fn build_group_by_stream(
     are_keys_sorted: bool,
 ) -> PolarsResult<PhysStream> {
     'build_streaming_group_by: {
-        // if input
-        //     .output_schema(phys_sm)
-        //     .iter_values()
-        //     .any(|dtype| dtype.contains_objects())
-        // {
-        //     break 'build_streaming_group_by;
-        // }
+        // Fallback to in-mem for objects. Otherwise we get an error in CI:
+        //   FAILED tests/unit/dataframe/test_df.py::test_hashing_on_python_objects
+        //   pyo3_runtime.PanicException: Unsupported in row encoding
+        if input
+            .output_schema(phys_sm)
+            .iter_values()
+            .any(|dtype| dtype.contains_objects())
+        {
+            break 'build_streaming_group_by;
+        }
 
         #[cfg(feature = "dynamic_group_by")]
         if let Some(rolling_options) = options.as_ref().rolling.as_ref()

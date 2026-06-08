@@ -6466,8 +6466,8 @@ naive plan: (run LazyFrame.explain(optimized=True) to see the optimized plan)
         ╞══════╪══════╪══════╪═══════╪═══════════╡
         │ 1    ┆ 6.0  ┆ a    ┆ x     ┆ a         │
         │ 2    ┆ 7.0  ┆ b    ┆ y     ┆ b         │
-        │ null ┆ null ┆ null ┆ z     ┆ d         │
         │ 3    ┆ 8.0  ┆ c    ┆ null  ┆ null      │
+        │ null ┆ null ┆ null ┆ z     ┆ d         │
         └──────┴──────┴──────┴───────┴───────────┘
         >>> lf.join(other_lf, on="ham", how="left", coalesce=True).collect()
         shape: (3, 4)
