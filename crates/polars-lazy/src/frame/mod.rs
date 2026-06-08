@@ -627,7 +627,6 @@ impl LazyFrame {
                 DslPlan::Scan {
                     unified_scan_args, ..
                 } => unified_scan_args.rechunk,
-                DslPlan::SinkMultiple { inputs } => inputs.iter().all(is_scan_with_rechunk),
                 DslPlan::Sink { input, .. } => is_scan_with_rechunk(input),
                 _ => false,
             }
