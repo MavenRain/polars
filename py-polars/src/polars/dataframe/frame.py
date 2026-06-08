@@ -8369,8 +8369,8 @@ class DataFrame:
         ╞══════╪══════╪═════╪═══════╡
         │ 1    ┆ 6.0  ┆ a   ┆ x     │
         │ 2    ┆ 7.0  ┆ b   ┆ y     │
-        │ 3    ┆ 8.0  ┆ c   ┆ null  │
         │ null ┆ null ┆ d   ┆ z     │
+        │ 3    ┆ 8.0  ┆ c   ┆ null  │
         └──────┴──────┴─────┴───────┘
 
         >>> df.join(other_df, on="ham", how="left")
