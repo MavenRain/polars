@@ -6447,7 +6447,8 @@ naive plan: (run LazyFrame.explain(optimized=True) to see the optimized plan)
         ...         "ham": ["a", "b", "d"],
         ...     }
         ... )
-        >>> lf.join(other_lf, on="ham").collect()
+        >>> result = lf.join(other_lf, on="ham").collect()
+        >>> result.sort("*")
         shape: (2, 4)
         ┌─────┬─────┬─────┬───────┐
         │ foo ┆ bar ┆ ham ┆ apple │
@@ -6457,19 +6458,21 @@ naive plan: (run LazyFrame.explain(optimized=True) to see the optimized plan)
         │ 1   ┆ 6.0 ┆ a   ┆ x     │
         │ 2   ┆ 7.0 ┆ b   ┆ y     │
         └─────┴─────┴─────┴───────┘
-        >>> lf.join(other_lf, on="ham", how="full").collect()
+        >>> result = lf.join(other_lf, on="ham", how="full").collect()
+        >>> result.sort("*")
         shape: (4, 5)
         ┌──────┬──────┬──────┬───────┬───────────┐
         │ foo  ┆ bar  ┆ ham  ┆ apple ┆ ham_right │
         │ ---  ┆ ---  ┆ ---  ┆ ---   ┆ ---       │
         │ i64  ┆ f64  ┆ str  ┆ str   ┆ str       │
         ╞══════╪══════╪══════╪═══════╪═══════════╡
+        │ null ┆ null ┆ null ┆ z     ┆ d         │
         │ 1    ┆ 6.0  ┆ a    ┆ x     ┆ a         │
         │ 2    ┆ 7.0  ┆ b    ┆ y     ┆ b         │
         │ 3    ┆ 8.0  ┆ c    ┆ null  ┆ null      │
-        │ null ┆ null ┆ null ┆ z     ┆ d         │
         └──────┴──────┴──────┴───────┴───────────┘
-        >>> lf.join(other_lf, on="ham", how="left", coalesce=True).collect()
+        >>> result = lf.join(other_lf, on="ham", how="left", coalesce=True).collect()
+        >>> result.sort("*")
         shape: (3, 4)
         ┌─────┬─────┬─────┬───────┐
         │ foo ┆ bar ┆ ham ┆ apple │
@@ -6480,7 +6483,8 @@ naive plan: (run LazyFrame.explain(optimized=True) to see the optimized plan)
         │ 2   ┆ 7.0 ┆ b   ┆ y     │
         │ 3   ┆ 8.0 ┆ c   ┆ null  │
         └─────┴─────┴─────┴───────┘
-        >>> lf.join(other_lf, on="ham", how="semi").collect()
+        >>> result = lf.join(other_lf, on="ham", how="semi").collect()
+        >>> result.sort("*")
         shape: (2, 3)
         ┌─────┬─────┬─────┐
         │ foo ┆ bar ┆ ham │
@@ -6500,7 +6504,8 @@ naive plan: (run LazyFrame.explain(optimized=True) to see the optimized plan)
         │ 3   ┆ 8.0 ┆ c   │
         └─────┴─────┴─────┘
 
-        >>> lf.join(other_lf, how="cross").collect()
+        >>> result = lf.join(other_lf, how="cross").collect()
+        >>> result.sort("*")
         shape: (9, 5)
         ┌─────┬─────┬─────┬───────┬───────────┐
         │ foo ┆ bar ┆ ham ┆ apple ┆ ham_right │
@@ -6666,10 +6671,11 @@ naive plan: (run LazyFrame.explain(optimized=True) to see the optimized plan)
 
         To OR them together, use a single expression and the `|` operator.
 
-        >>> east.join_where(
+        >>> result = east.join_where(
         ...     west,
         ...     (pl.col("dur") < pl.col("time")) | (pl.col("rev") < pl.col("cost")),
         ... ).collect()
+        >>> result.sort("id", "t_id")
         shape: (6, 8)
         ┌─────┬─────┬─────┬───────┬──────┬──────┬──────┬─────────────┐
         │ id  ┆ dur ┆ rev ┆ cores ┆ t_id ┆ time ┆ cost ┆ cores_right │
