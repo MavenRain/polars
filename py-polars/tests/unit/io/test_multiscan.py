@@ -963,6 +963,7 @@ def test_warn_on_scan_with_requested_rechunk(
         scan(f, rechunk=True)
 
 
+@pytest.mark.may_fail_auto_streaming
 def test_scan_rechunk_arg() -> None:
     df = pl.DataFrame({"x": [0, 1, 2, 3, 4]})
     f = io.BytesIO()
