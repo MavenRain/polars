@@ -280,7 +280,7 @@ fn test_lazy_query_4() -> PolarsResult<()> {
 
     let out = base_df
         .clone()
-        .group_by([col("uid")])
+        .group_by_stable([col("uid")])
         .agg([
             col("day").alias("day"),
             col("cumcases")
