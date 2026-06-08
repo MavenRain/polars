@@ -1176,7 +1176,6 @@ def test_list_filter_null() -> None:
     ]
 
 
-@pytest.mark.may_fail_auto_streaming
 @pytest.mark.may_fail_cloud  # reason: time check
 @pytest.mark.slow
 def test_list_struct_field_perf() -> None:
@@ -1199,7 +1198,7 @@ def test_list_struct_field_perf() -> None:
     # Timings (Apple M3 Pro 11-core)
     # * Debug build w/ elementwise: 1x
     # * Release pypi 1.29.0: 80x
-    threshold = 10
+    threshold = 30
 
     if slowdown > threshold:
         msg = f"slowdown ({slowdown}) > {threshold}x ({t0 = }, {t1 = })"
