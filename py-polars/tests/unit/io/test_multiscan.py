@@ -1,9 +1,9 @@
 from __future__ import annotations
 
-import contextlib
 import io
 import re
 import sys
+import warnings
 from functools import partial
 from typing import IO, TYPE_CHECKING, Any
 
@@ -971,5 +971,11 @@ def test_scan_rechunk_arg() -> None:
 
     assert pl.scan_parquet(f).collect().n_chunks() == 5
 
-    with contextlib.suppress(UserWarning):
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore", UserWarning)
+
+        assert (
+            pl.scan_parquet(f, rechunk=True).collect(engine="streaming").n_chunks() != 1
+        )
+
         assert pl.scan_parquet(f, rechunk=True).collect().n_chunks() == 1
