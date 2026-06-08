@@ -77,9 +77,7 @@ impl MemberCollector {
                 Cache { .. } => self.has_cache = true,
                 ExtContext { .. } => self.has_ext_context = true,
                 #[cfg(feature = "cse")]
-                Scan {
-                    unified_scan_args, ..
-                } => {
+                Scan { .. } => {
                     self.scans.insert(_node, lp_arena, _expr_arena);
                 },
                 HStack { .. } => {
